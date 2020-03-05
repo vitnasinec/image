@@ -3,6 +3,7 @@
 namespace VitNasinec\Image;
 
 use Illuminate\Http\Request;
+use League\Glide\Filesystem\FileNotFoundException;
 use League\Glide\Responses\LaravelResponseFactory;
 use League\Glide\ServerFactory;
 
@@ -17,9 +18,13 @@ class ImageController
      */
     public function __invoke(Request $request, $path)
     {
-        return app('ImageServer')->getImageResponse(
-            $path,
-            $request->all()
-        );
+        try {
+            return app('ImageServer')->getImageResponse(
+                $path,
+                $request->all()
+            );
+        } catch (FileNotFoundException $e) {
+            abort(404);
+        }
     }
 }

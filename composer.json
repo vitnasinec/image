@@ -1,0 +1,25 @@
+{
+    "name": "vitnasinec/image",
+    "description": "Just register and configure league/glide-laravel",
+    "require": {
+        "league/glide-laravel": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {"VitNasinec\\Image\\": "src/"}
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "VitNasinec\\Image\\ImageServiceProvider"
+            ]
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vit Nasinec",
+            "email": "vitnasinec@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}

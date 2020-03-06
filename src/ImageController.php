@@ -3,6 +3,7 @@
 namespace VitNasinec\Image;
 
 use Illuminate\Http\Request;
+use Intervention\Image\Exception\NotReadableException;
 use League\Glide\Filesystem\FileNotFoundException;
 use League\Glide\Responses\LaravelResponseFactory;
 use League\Glide\ServerFactory;
@@ -25,6 +26,8 @@ class ImageController
             );
         } catch (FileNotFoundException $e) {
             abort(404);
+        } catch (NotReadableException $e) {
+            abort(415, $e->getMessage());
         }
     }
 }

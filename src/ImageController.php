@@ -3,10 +3,10 @@
 namespace VitNasinec\Image;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\Exception\NotReadableException;
 use League\Glide\Filesystem\FileNotFoundException;
-use League\Glide\Responses\LaravelResponseFactory;
-use League\Glide\ServerFactory;
 
 class ImageController
 {
@@ -19,6 +19,10 @@ class ImageController
      */
     public function __invoke(Request $request, $path)
     {
+        if (Str::endsWith($path, '.svg')) {
+            return response(Storage::get($path))->header('Content-Type', 'image/svg+xml');
+        }
+
         try {
             return app('ImageServer')->getImageResponse(
                 $path,

@@ -1,5 +1,5 @@
 # Image
-Just register and configure league/glide-laravel to handle `/image/*` route requests and display images from your default storage.
+Just register and configure league/glide to handle `/image/*` route requests and display images from your default storage.
 
 
 

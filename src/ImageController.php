@@ -10,13 +10,6 @@ use League\Glide\Filesystem\FileNotFoundException;
 
 class ImageController
 {
-    /**
-     * __invoke
-     *
-     * @param Request $request
-     * @param mixed $path
-     * @return mixed
-     */
     public function __invoke(Request $request, $path)
     {
         if (Str::endsWith($path, '.svg')) {

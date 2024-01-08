@@ -12,8 +12,13 @@ class ImageController
 {
     public function __invoke(Request $request, $path)
     {
-        if (Str::endsWith($path, '.svg')) {
-            return response(Storage::get($path))->header('Content-Type', 'image/svg+xml');
+        if ($request->has('original')
+            || ! count($request->all())
+            || Str::endsWith($path, '.svg')
+        ) {
+            abort_if(! Storage::exists($path), 404);
+
+            return Storage::response($path);
         }
 
         try {

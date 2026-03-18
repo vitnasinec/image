@@ -4,8 +4,8 @@ namespace VitNasinec\Image;
 
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
-use League\Glide\Responses\SymfonyResponseFactory;
 use League\Glide\ServerFactory;
+use VitNasinec\Image\Responses\LaravelResponseFactory;
 
 class ImageServiceProvider extends ServiceProvider
 {
@@ -21,11 +21,11 @@ class ImageServiceProvider extends ServiceProvider
             $filesystem = $app->make(Filesystem::class);
 
             return ServerFactory::create([
-                'response' => new SymfonyResponseFactory,
+                'response' => new LaravelResponseFactory,
                 'source' => $filesystem->getDriver(),
                 'cache' => storage_path('framework/cache/data/glide'),
-                'base_url' => 'image',
-                'driver' => env('IMAGE_DRIVER', 'gd'),
+                'base_url' => config('image.prefix'),
+                'driver' => config('image.driver'),
             ]);
         });
     }
@@ -37,6 +37,11 @@ class ImageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->mergeConfigFrom(__DIR__.'/../config/image.php', 'image');
+        $this->publishes([
+            __DIR__.'/../config/image.php' => config_path('image.php'),
+        ], 'image-config');
+
         $this->loadRoutesFrom(__DIR__.'/routes.php');
     }
 }
